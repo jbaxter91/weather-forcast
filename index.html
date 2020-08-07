@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Widget</title>
+
+    <!-- Resources -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="./assets/styles/style.css" />
+
+</head>
+<body>
+
+    <div class="container-fluid mx-0">
+        
+        <!-- Header -->
+        <div class="row bg-dark">
+            <header class="col text-center">
+                Weather Dashboard
+            </header>
+        </div>
+
+        <!-- Main row containing aside and stacked display info -->
+        <main class="row mt-4 mx-2 ml-0">
+            <!-- Large screen display for search and hotkey aka 'aside' -->
+            <!-- This only displays for screens larger than medium -->
+            <div class="col-2 border mx-3 my-1 d-none d-lg-block">
+                <h2 class="smallerH2 text-center">
+                    Search for a city:
+                </h2>
+                <div class="row mx-1">
+                    <input id="input-large" type="text" placeholder="Search.." name="search" class="col mr-1">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+                
+                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 1</button>
+                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 2</button>
+                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 3</button>
+                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 4</button>
+                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 5</button>
+                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 6</button>
+            </div>
+            <!-- Small screen display for controls -->
+            <!-- This only displays for screens smaller than large -->
+            <div class="col-12 border d-lg-none">
+                <h2>
+                    Search for a city:
+                </h2>
+                <div class="row mx-1">
+                    <input id="input-small" type="text" placeholder="Search.." name="search" class="col mr-1">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="row px-3">
+                    <button class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 1</button>
+                    <button class=" col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 2</button>
+                    <button class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 3</button>
+                    <button class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 4</button>
+                </div>
+                
+            </div>
+
+            <!-- Container For Current Forcast -->
+            
+            <div class="col">
+                <div class="row mt-1">
+                    <div id="day-today" class="col-12 border mb-2">
+                        <h3>
+                            Location (Date)
+                            <div id="icon"><img id="wicon" alt="Weather icon"></div>
+                        </h3>
+                        <p>
+                            Temp
+                        </p>
+                        <p>
+                            Humidity
+                        </p>
+                        <p>
+                            Wind Speed
+                        </p>
+                        <p>
+                            UV Index
+                        </p>
+                    </div>
+
+                    <div class="col-12 mb-2">
+                        <h3>
+                            5 Day Forcast
+                        </h3>
+                        <!-- 5 day forcast container -->
+                        <div class="row">
+                            <div id="day-1" class="col mx-1 bg-dark">
+                                <p>
+                                    date
+                                </p>
+                                <p>
+                                    image
+                                </p>
+                                <p>
+                                    temp
+                                </p>
+                                <p>
+                                    humidity
+                                </p>
+                            </div>
+                            <div id="day-2" class="col mx-1 bg-dark">
+                                <p>
+                                    date
+                                </p>
+                                <p>
+                                    image
+                                </p>
+                                <p>
+                                    temp
+                                </p>
+                                <p>
+                                    humidity
+                                </p>
+                            </div>
+                            <div id="day-3" class="col mx-1 bg-dark">
+                                <p>
+                                    date
+                                </p>
+                                <p>
+                                    image
+                                </p>
+                                <p>
+                                    temp
+                                </p>
+                                <p>
+                                    humidity
+                                </p>
+                            </div>
+                            <div id="day-4" class="col mx-1 bg-dark">
+                                <p>
+                                    date
+                                </p>
+                                <p>
+                                    image
+                                </p>
+                                <p>
+                                    temp
+                                </p>
+                                <p>
+                                    humidity
+                                </p>
+                            </div>
+                            <div id="day-5" class="col mx-1 bg-dark">
+                                <p>
+                                    date
+                                </p>
+                                <p>
+                                    image
+                                </p>
+                                <p>
+                                    temp
+                                </p>
+                                <p>
+                                    humidity
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="./assets/scripts/script.js"></script>
+
+    <script type="text/javascript">
+
+        const INPUT_SMALL = $("#input-small");
+        const INPUT_LARGE = $("#input-large");
+        const DAY_TODAY = $("#day-today");
+        const DAY_ONE = $("#day-1");
+        const DAY_TWO = $("#day-2");
+        const DAY_THREE = $("#day-3");
+        const DAY_FOUR = $("#day-4");
+        const DAY_FIVE = $("#day-5");
+
+        const BASE_URL = "https://api.openweathermap.org/data/2.5/forecast/daily?q=";
+        const API_KEY = "&cnt=6&appid=166a433c57516f51dfab1f7edaed8413";
+
+
+        // ===== Functions to keep the two search boxes in sync ======
+        INPUT_SMALL.change(function()
+        {
+            console.log("Updating Input For large");
+            INPUT_LARGE.val(INPUT_SMALL.val());
+            GetWeather(INPUT_LARGE.val());
+        });
+        INPUT_LARGE.change(function()
+        {
+            console.log("Updating Input For small");
+            INPUT_SMALL.val(INPUT_LARGE.val());
+            GetWeather(INPUT_LARGE.val());
+        });
+        // ===========================================================
+
+        function GetWeather(searchTerm)
+        {
+            var queryURL = BASE_URL + searchTerm + API_KEY;
+            // Here we run our AJAX call to the OpenWeatherMap API
+            $.ajax({
+            url: queryURL,
+            method: "GET"
+            })
+            // We store all of the retrieved data inside of an object called "response"
+            .then(function(response) {
+
+                // Log the resulting object
+                console.log(response);
+                
+                UpdateTodayDisplay(response);
+               
+            });
+        }
+
+        function UpdateTodayDisplay(response)
+
+        {
+            
+            var children = DAY_TODAY.children();
+                for(var i = 0; i < children.length;i++)
+                {
+                    switch(i)
+                    {
+                        case 0:
+                            var iconCode = response.list[0].weather[0].icon;
+                            var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                            var iconElement = $("<img>",
+                            {
+                                src: iconURL,
+                                alt: "Todays Weather Icon"
+                            })
+                            $(children[i]).text(response.city.name).append(iconElement);
+                            
+                            break;
+                        case 1:
+                            $(children[i]).text("Temperature: " + ((response.list[0].temp.day - 273.15) * 1.80 + 32).toFixed(2) + " (F)");
+                            break;
+                        case 2:
+                            $(children[i]).text("Humidity: " + response.list[0].humidity + " %");
+                            break;
+                        case 3:
+                            $(children[i]).text("Wind Speed: " + response.list[0].speed + " MPH");
+                            break;
+                        case 3:
+                            $(children[i]).text("UV INDEX");
+                            break;
+                    }
+                }
+        }
+
+        function UpdateFiveDayDisplay(response)
+        {
+            var days = [DAY_ONE,DAY_TWO,DAY_THREE,DAY_FOUR,DAY_FIVE];
+            for(var i=0; i < days.length;i++)
+            {
+                // This will loop over all our days to display
+            }
+            
+        }
+        // This is our API key
+        var APIKey = "166a433c57516f51dfab1f7edaed8413";
+
+        // Here we are building the URL we need to query the database
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+        "q=Bujumbura,Burundi&appid=" + APIKey;
+
+        
+
+    </script>
+    
+</body>
+</html>
