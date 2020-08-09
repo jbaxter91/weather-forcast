@@ -50,8 +50,8 @@
                 <button onclick="GetWeather('Sacramento')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Sacramento</button>
                 <button onclick="GetWeather('Roseville')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Roseville</button>
                 <button onclick="GetWeather('New York')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> New York</button>
-                <button  onclick="GetWeather('Los Angeles')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Los Angeles</button>
-                <button  onclick="GetWeather('Las Vegas')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Las Vegas</button>
+                <button onclick="GetWeather('Los Angeles')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Los Angeles</button>
+                <button onclick="GetWeather('Las Vegas')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Las Vegas</button>
             </div>
             <!-- Small screen display for controls -->
             <!-- This only displays for screens smaller than large -->
@@ -67,7 +67,8 @@
                     <button onclick="GetWeather('Citrus Heights')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> Citrus Heights</button>
                     <button onclick="GetWeather('Sacramento')" class=" col mx-1 my-2 btn btn-primary btn-lg btn-block"> Sacramento</button>
                     <button onclick="GetWeather('Roseville')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> Roseville</button>
-                    <button onclick="GetWeather('New York')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> New York</button>
+                    <!-- New york hides on xs screen -->
+                    <button onclick="GetWeather('New York')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block d-none d-sm-block"> New York</button>
                 </div>
                 
             </div>
@@ -78,20 +79,19 @@
                 <div class="row mt-1">
                     <div id="day-today" class="col-12 border mb-2">
                         <h3>
-                            Location (Date)
-                            <div id="icon"><img id="wicon" alt="Weather icon"></div>
+                            Search To Get Weather!
                         </h3>
                         <p>
-                            Temp
+                            
                         </p>
                         <p>
-                            Humidity
+                            
                         </p>
                         <p>
-                            Wind Speed
+
                         </p>
                         <p>
-                            UV Index
+
                         </p>
                     </div>
 
@@ -102,9 +102,9 @@
                         <!-- 5 day forcast container -->
                         <div class="row">
                             <div id="day-1" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary" style="display: none;">
-                                <h3>
+                                <h4>
                                     date
-                                </h3>
+                                </h4>
                                 <p>
                                     image
                                 </p>
@@ -116,9 +116,9 @@
                                 </p>
                             </div>
                             <div id="day-2" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary" style="display: none;">
-                                <h3>
+                                <h4>
                                     date
-                                </h3>
+                                </h4>
                                 <p>
                                     image
                                 </p>
@@ -130,9 +130,9 @@
                                 </p>
                             </div>
                             <div id="day-3" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary " style="display: none;">
-                                <h3>
+                                <h4>
                                     date
-                                </h3>
+                                </h4>
                                 <p>
                                     image
                                 </p>
@@ -144,9 +144,9 @@
                                 </p>
                             </div>
                             <div id="day-4" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary " style="display: none;">
-                                <h3>
+                                <h4>
                                     date
-                                </h3>
+                                </h4>
                                 <p>
                                     image
                                 </p>
@@ -158,9 +158,9 @@
                                 </p>
                             </div>
                             <div id="day-5" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary" style="display: none;">
-                                <h3>
+                                <h4>
                                     date
-                                </h3>
+                                </h4>
                                 <p>
                                     image
                                 </p>
@@ -186,6 +186,8 @@
 
     <script type="text/javascript">
 
+        // ================ Constants ==================
+            // ===== Display Elements =============
         const INPUT_SMALL = $("#input-small");
         const INPUT_LARGE = $("#input-large");
         const DAY_TODAY = $("#day-today");
@@ -194,47 +196,37 @@
         const DAY_THREE = $("#day-3");
         const DAY_FOUR = $("#day-4");
         const DAY_FIVE = $("#day-5");
+            // ====== End Display Elements
 
         const BASE_URL = "https://api.openweathermap.org/data/2.5/forecast/daily?q=";
         const API_KEY = "&cnt=6&appid=166a433c57516f51dfab1f7edaed8413";
 
+        // ================= End Constants =====================
 
-        // ===== Functions to keep the two search boxes in sync ======
-        INPUT_SMALL.change(function()
-        {
-            console.log("Updating Input For large");
-            INPUT_LARGE.val(INPUT_SMALL.val());
-            GetWeather(INPUT_LARGE.val());
-        });
-        INPUT_LARGE.change(function()
-        {
-            console.log("Updating Input For small");
-            INPUT_SMALL.val(INPUT_LARGE.val());
-            GetWeather(INPUT_LARGE.val());
-        });
-        // ===========================================================
 
+        
+        // Function to call opeenweathermap api, requires a search term
+        // searchTerm gets encoded prior to ajax call, so no need to worry when calling this
         function GetWeather(searchTerm)
         {
-            var queryURL = BASE_URL + searchTerm + API_KEY;
+            var queryURL = BASE_URL + encodeURI(searchTerm)+ API_KEY;
             // Here we run our AJAX call to the OpenWeatherMap API
             $.ajax({
-            url: queryURL,
-            method: "GET"
+                url: queryURL,
+                method: "GET"
             })
             // We store all of the retrieved data inside of an object called "response"
             .then(function(response) {
-
-                // Log the resulting object
-                console.log(response);
                 
                 UpdateTodayDisplay(response);
                 UpdateFiveDayDisplay(response);
                 UpdateUvDisplay(response.city.coord.lat, response.city.coord.lon);
-               
+                
             });
         }
-
+        
+        // Pass in openweathermap response to build out todays weather display
+        // **note** UV is not included in this API call, its covered in UpdateUvDisplay(lat,lon)
         function UpdateTodayDisplay(response)
         {
             
@@ -244,19 +236,16 @@
             {
                 src: iconURL,
                 alt: "Todays Weather Icon"
-            })
+            });
+            // Interesting thing here when compared to line 268, 268 requires a .empty() because it will keep appending, this line sets the text which i guess already clears the html inside, i didnt know that!
             $(DAY_TODAY.children()[0]).text(response.city.name +" " + ConvertDate(response.list[0].dt) + " ").append(iconElement);
-
             $(DAY_TODAY.children()[1]).text("Temperature: " + ConvertToF(response.list[0].temp.day) + " (F)");
-
             $(DAY_TODAY.children()[2]).text("Humidity: " + response.list[0].humidity + " %");
-
             $(DAY_TODAY.children()[3]).text("Wind Speed: " + response.list[0].speed + " MPH");
-
-            $(DAY_TODAY.children()[4]).text("UV INDEX");
- 
+            
         }
-
+        
+        // pass in openweathermap response to build out the five day forcast display
         function UpdateFiveDayDisplay(response)
         {
             var days = [DAY_ONE, DAY_TWO, DAY_THREE, DAY_FOUR, DAY_FIVE];
@@ -266,38 +255,49 @@
                 // This will loop over all our days to display
                 var targetDay = response.list[i+1];
                 $(days[i].children()[0]).text(ConvertDate(targetDay.dt));
-                $(days[i].children()[1]).text("ICON:");
+                
+                var iconCode = targetDay.weather[0].icon;
+                var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                var iconElement = $("<img>",
+                {
+                    src: iconURL,
+                    alt: "Todays Weather Icon"
+                });
+                
+                $(days[i].children()[1]).empty().append(iconElement);
                 $(days[i].children()[2]).text("Temp: " + ConvertToF( targetDay.temp.day) + " (F)");
                 $(days[i].children()[3]).text("Humidity: " + targetDay.humidity + "%");
             }
             
         }
-
+        
+        // Seperate function to get the UV data for todays forcast
         function UpdateUvDisplay(lat, lon)
         {
-            var queryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + API_KEY + "&lat=" + lat +"&lon=" + lon;
+            var queryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=166a433c57516f51dfab1f7edaed8413&lat=" + lat +"&lon=" + lon;
             // Here we run our AJAX call to the OpenWeatherMap API
             $.ajax({
-            url: queryURL,
-            method: "GET"
+                url: queryURL,
+                method: "GET"
             })
             // We store all of the retrieved data inside of an object called "response"
             .then(function(response) {
-
-                // Log the resulting object
-                console.log(response);
-                
-               
+                // Can i just say how much i dislike needing to do a seperate api call just to get the uv index?
+                // Like seriously... Why cant it just be included in the multi day call?
+                // Whatever... just enjoy the updated UV!
+                $(DAY_TODAY.children()[4]).text("UV: " + response.value);
             });
         }
-
+        
+        // ========= Helper Functions ==============
+        
         // Function to extract the conversion of kelvin to farenheight
         // Returns value only, no symbol, also fixed 2
         function ConvertToF(tempKelvin)
         {
             return ((tempKelvin - 273.15) * 1.80 + 32).toFixed(2);
         }
-
+        
         // Function to convert unix timestamp to formatted date
         function ConvertDate(unixDate)
         {
@@ -305,8 +305,22 @@
             return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
         }
         
+        // ===== Functions to keep the two search boxes in sync ======
+        INPUT_SMALL.change(function()
+        {
+            console.log("Updating Input For large");
+            INPUT_LARGE.val(INPUT_SMALL.val());
+        });
+        INPUT_LARGE.change(function()
+        {
+            console.log("Updating Input For small");
+            INPUT_SMALL.val(INPUT_LARGE.val());
+        });
+        // ===========================================================
 
-    </script>
+        // ========== End Helper Functions ==========
+        
+        </script>
     
 </body>
 </html>
