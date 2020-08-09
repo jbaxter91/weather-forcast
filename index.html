@@ -43,15 +43,15 @@
                 </h2>
                 <div class="row mx-1">
                     <input id="input-large" type="text" placeholder="Search.." name="search" class="col mr-1">
-                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <button class="btn-primary" type="submit"><i class="fa fa-search"></i></button>
                 </div>
                 
-                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 1</button>
-                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 2</button>
-                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 3</button>
-                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 4</button>
-                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 5</button>
-                <button class="col-12 my-2 btn btn-primary btn-lg btn-block"> City 6</button>
+                <button onclick="GetWeather('Citrus Heights')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Citrus Heights</button>
+                <button onclick="GetWeather('Sacramento')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Sacramento</button>
+                <button onclick="GetWeather('Roseville')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Roseville</button>
+                <button onclick="GetWeather('New York')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> New York</button>
+                <button  onclick="GetWeather('Los Angeles')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Los Angeles</button>
+                <button  onclick="GetWeather('Las Vegas')" class="col-12 my-2 btn btn-primary btn-lg btn-block"> Las Vegas</button>
             </div>
             <!-- Small screen display for controls -->
             <!-- This only displays for screens smaller than large -->
@@ -61,13 +61,13 @@
                 </h2>
                 <div class="row mx-1">
                     <input id="input-small" type="text" placeholder="Search.." name="search" class="col mr-1">
-                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <button class="btn-primary" type="submit"><i class="fa fa-search"></i></button>
                 </div>
                 <div class="row px-3">
-                    <button class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 1</button>
-                    <button class=" col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 2</button>
-                    <button class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 3</button>
-                    <button class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> City 4</button>
+                    <button onclick="GetWeather('Citrus Heights')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> Citrus Heights</button>
+                    <button onclick="GetWeather('Sacramento')" class=" col mx-1 my-2 btn btn-primary btn-lg btn-block"> Sacramento</button>
+                    <button onclick="GetWeather('Roseville')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> Roseville</button>
+                    <button onclick="GetWeather('New York')" class="col mx-1 my-2 btn btn-primary btn-lg btn-block"> New York</button>
                 </div>
                 
             </div>
@@ -101,10 +101,10 @@
                         </h3>
                         <!-- 5 day forcast container -->
                         <div class="row">
-                            <div id="day-1" class="col mx-1 bg-dark">
-                                <p>
+                            <div id="day-1" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary" style="display: none;">
+                                <h3>
                                     date
-                                </p>
+                                </h3>
                                 <p>
                                     image
                                 </p>
@@ -115,10 +115,10 @@
                                     humidity
                                 </p>
                             </div>
-                            <div id="day-2" class="col mx-1 bg-dark">
-                                <p>
+                            <div id="day-2" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary" style="display: none;">
+                                <h3>
                                     date
-                                </p>
+                                </h3>
                                 <p>
                                     image
                                 </p>
@@ -129,10 +129,10 @@
                                     humidity
                                 </p>
                             </div>
-                            <div id="day-3" class="col mx-1 bg-dark">
-                                <p>
+                            <div id="day-3" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary " style="display: none;">
+                                <h3>
                                     date
-                                </p>
+                                </h3>
                                 <p>
                                     image
                                 </p>
@@ -143,10 +143,10 @@
                                     humidity
                                 </p>
                             </div>
-                            <div id="day-4" class="col mx-1 bg-dark">
-                                <p>
+                            <div id="day-4" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary " style="display: none;">
+                                <h3>
                                     date
-                                </p>
+                                </h3>
                                 <p>
                                     image
                                 </p>
@@ -157,10 +157,10 @@
                                     humidity
                                 </p>
                             </div>
-                            <div id="day-5" class="col mx-1 bg-dark">
-                                <p>
+                            <div id="day-5" class="col-12 col-sm-4 col-md-2 my-2 mx-1 border border-primary" style="display: none;">
+                                <h3>
                                     date
-                                </p>
+                                </h3>
                                 <p>
                                     image
                                 </p>
@@ -229,62 +229,81 @@
                 console.log(response);
                 
                 UpdateTodayDisplay(response);
+                UpdateFiveDayDisplay(response);
+                UpdateUvDisplay(response.city.coord.lat, response.city.coord.lon);
                
             });
         }
 
         function UpdateTodayDisplay(response)
-
         {
             
-            var children = DAY_TODAY.children();
-                for(var i = 0; i < children.length;i++)
-                {
-                    switch(i)
-                    {
-                        case 0:
-                            var iconCode = response.list[0].weather[0].icon;
-                            var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
-                            var iconElement = $("<img>",
-                            {
-                                src: iconURL,
-                                alt: "Todays Weather Icon"
-                            })
-                            $(children[i]).text(response.city.name).append(iconElement);
-                            
-                            break;
-                        case 1:
-                            $(children[i]).text("Temperature: " + ((response.list[0].temp.day - 273.15) * 1.80 + 32).toFixed(2) + " (F)");
-                            break;
-                        case 2:
-                            $(children[i]).text("Humidity: " + response.list[0].humidity + " %");
-                            break;
-                        case 3:
-                            $(children[i]).text("Wind Speed: " + response.list[0].speed + " MPH");
-                            break;
-                        case 3:
-                            $(children[i]).text("UV INDEX");
-                            break;
-                    }
-                }
+            var iconCode = response.list[0].weather[0].icon;
+            var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+            var iconElement = $("<img>",
+            {
+                src: iconURL,
+                alt: "Todays Weather Icon"
+            })
+            $(DAY_TODAY.children()[0]).text(response.city.name +" " + ConvertDate(response.list[0].dt) + " ").append(iconElement);
+
+            $(DAY_TODAY.children()[1]).text("Temperature: " + ConvertToF(response.list[0].temp.day) + " (F)");
+
+            $(DAY_TODAY.children()[2]).text("Humidity: " + response.list[0].humidity + " %");
+
+            $(DAY_TODAY.children()[3]).text("Wind Speed: " + response.list[0].speed + " MPH");
+
+            $(DAY_TODAY.children()[4]).text("UV INDEX");
+ 
         }
 
         function UpdateFiveDayDisplay(response)
         {
-            var days = [DAY_ONE,DAY_TWO,DAY_THREE,DAY_FOUR,DAY_FIVE];
+            var days = [DAY_ONE, DAY_TWO, DAY_THREE, DAY_FOUR, DAY_FIVE];
             for(var i=0; i < days.length;i++)
             {
+                days[i].attr("style", "display:block");
                 // This will loop over all our days to display
+                var targetDay = response.list[i+1];
+                $(days[i].children()[0]).text(ConvertDate(targetDay.dt));
+                $(days[i].children()[1]).text("ICON:");
+                $(days[i].children()[2]).text("Temp: " + ConvertToF( targetDay.temp.day) + " (F)");
+                $(days[i].children()[3]).text("Humidity: " + targetDay.humidity + "%");
             }
             
         }
-        // This is our API key
-        var APIKey = "166a433c57516f51dfab1f7edaed8413";
 
-        // Here we are building the URL we need to query the database
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
-        "q=Bujumbura,Burundi&appid=" + APIKey;
+        function UpdateUvDisplay(lat, lon)
+        {
+            var queryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + API_KEY + "&lat=" + lat +"&lon=" + lon;
+            // Here we run our AJAX call to the OpenWeatherMap API
+            $.ajax({
+            url: queryURL,
+            method: "GET"
+            })
+            // We store all of the retrieved data inside of an object called "response"
+            .then(function(response) {
 
+                // Log the resulting object
+                console.log(response);
+                
+               
+            });
+        }
+
+        // Function to extract the conversion of kelvin to farenheight
+        // Returns value only, no symbol, also fixed 2
+        function ConvertToF(tempKelvin)
+        {
+            return ((tempKelvin - 273.15) * 1.80 + 32).toFixed(2);
+        }
+
+        // Function to convert unix timestamp to formatted date
+        function ConvertDate(unixDate)
+        {
+            var date = new Date(unixDate * 1000);
+            return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+        }
         
 
     </script>
